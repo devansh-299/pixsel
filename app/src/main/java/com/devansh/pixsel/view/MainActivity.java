@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import com.devansh.pixsel.R;
 
+
 public class MainActivity extends AppCompatActivity {
 
     private NavController navController;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         navController = Navigation.findNavController(this,R.id.fragment);
         NavigationUI.setupActionBarWithNavController(this,navController);       // for getting back button on top bar!
+
     }
 
     @Override
