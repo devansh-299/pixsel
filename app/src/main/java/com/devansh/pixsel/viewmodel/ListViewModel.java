@@ -1,6 +1,7 @@
 package com.devansh.pixsel.viewmodel;
 
 import android.app.Application;
+import android.app.NotificationManager;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -10,6 +11,7 @@ import com.devansh.pixsel.model.ImageDatabase;
 import com.devansh.pixsel.model.ImageApi;
 import com.devansh.pixsel.model.ImageApiService;
 import com.devansh.pixsel.model.imageModel;
+import com.devansh.pixsel.util.NotificationsHelper;
 import com.devansh.pixsel.util.SharedPreferencesHelper;
 
 import java.util.ArrayList;
@@ -99,6 +101,7 @@ public class ListViewModel extends AndroidViewModel {
                                 insertTask  = new InsertImageTask();
                                 insertTask.execute(imageModels);
                                 Toast.makeText(getApplication(),"Data retrieved from remote",Toast.LENGTH_SHORT).show();
+                                NotificationsHelper.getInstance(getApplication()).createNotification();
                             }
 
                             @Override
@@ -114,6 +117,21 @@ public class ListViewModel extends AndroidViewModel {
         images.setValue(imageModels);
         imageLoadError.setValue(false);
         loading.setValue(false);
+    }
+
+    public void checkCacheDuration(){
+        String cachePreference = prefHelper.getCacheDuration();
+
+        if(!cachePreference.equals("")){
+            try {
+                int cahcePreferenceInt = Integer.parseInt(cachePreference);
+                refreshTime = cahcePreferenceInt*1000*1000*1000L;
+
+            }
+            catch (NumberFormatException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
