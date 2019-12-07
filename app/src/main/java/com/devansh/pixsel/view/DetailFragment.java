@@ -4,20 +4,22 @@ package com.devansh.pixsel.view;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
+
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
+
 import androidx.palette.graphics.Palette;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 import butterknife.BindView;
@@ -33,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -70,23 +73,17 @@ public class DetailFragment extends Fragment {
     private Boolean sendSmsStarted = false;
     private  imageModel currentImage;
 
-
-
-
-
-
     View view;
-
 
     public DetailFragment() {
 
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
                              Bundle savedInstanceState) {
-         view = inflater.inflate(R.layout.fragment_detail, container, false);
+        view = inflater.inflate(R.layout.fragment_detail, container, false);
         setHasOptionsMenu(true);
         ButterKnife.bind(this,view);
         return view;
@@ -96,7 +93,9 @@ public class DetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(getArguments()!= null){
-            imageidvalue = DetailFragmentArgs.fromBundle(getArguments()).getImageid();    // for getting image id value
+            imageidvalue = DetailFragmentArgs
+                    .fromBundle(getArguments())
+                    .getImageid();    // for getting image id value
         }
         viewModel = ViewModelProviders.of(this).get(DetailViewModel.class);
         viewModel.fetch(imageidvalue);
@@ -104,10 +103,18 @@ public class DetailFragment extends Fragment {
 
     }
 
-    public void setColor(int color){
+    public void setColor(int color ,int  actioncolor){
 
         View root = view.getRootView();
-
+        ActionBar actionBar = ((AppCompatActivity)getActivity())
+                .getSupportActionBar();
+        String hexColor = String.format("#%06X", (0xFFFFFF & actioncolor));
+        if(actionBar != null){
+            actionBar.setBackgroundDrawable(
+                    new ColorDrawable(Color.parseColor(hexColor)
+                    )
+            );
+        }
         root.setBackgroundColor(color);
     }
 
@@ -122,12 +129,13 @@ public class DetailFragment extends Fragment {
                 imagePurpose.setText(imageModels.imageSize);
                 imageTemperament.setText(imageModels.temperament);
                 imageLifeSpan.setText(imageModels.imageDate);
-                Util.loadImage(imageDetail,imageModels.imageUrl, new CircularProgressDrawable(getContext()));
+                Util.loadImage(
+                        imageDetail,
+                        imageModels.imageUrl,
+                        new CircularProgressDrawable(getContext()));
                 if (imageModels.imageUrl != null){
-
                     setupBackgroundColor(imageModels.imageUrl);
                 }
-
             }
         });
     }
@@ -144,19 +152,20 @@ public class DetailFragment extends Fragment {
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Palette.from(resource).generate(palette -> {
                             int imageColor = palette.getLightMutedSwatch().getRgb();
-                            ImagePalette mypalette = new ImagePalette(imageColor);
-                            setColor(imageColor);
-                          // imageName.setTextColor(palette.getLightVibrantSwatch().getRgb());
+                            int actionbarcolor = palette.getMutedSwatch().getRgb();
+                            imageName.setBackgroundColor(imageColor);
 
+                            ImagePalette mypalette = new ImagePalette(imageColor);
+
+                            setColor(imageColor,actionbarcolor);
+                          // imageName.setTextColor(palette.getLightVibrantSwatch().getRgb());
                         });
                     }
 
                     @Override
                     public void onLoadCleared(@Nullable Drawable placeholder) {
-
                     }
                 });
-
 
     }
 
@@ -194,10 +203,7 @@ public class DetailFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-
     public void onPermissionResult(Boolean permissionGranted) {
-
-
 
         if (isAdded() && sendSmsStarted && permissionGranted){
             SmsInfo smsInfo = new SmsInfo("",currentImage.imageName + " lifespan "+currentImage.imageDate,currentImage.imageUrl);

@@ -12,11 +12,13 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.devansh.pixsel.R;
-import com.devansh.pixsel.viewmodel.DetailViewModel;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
-
+        setMyActionBar();
         navController = Navigation.findNavController(this, R.id.fragment);
         NavigationUI.setupActionBarWithNavController(this, navController);       // for getting back button on top bar!
 
@@ -102,6 +104,10 @@ public class MainActivity extends AppCompatActivity {
             ((DetailFragment) activeFragment).onPermissionResult(permissionGrantted);
         }
 
+    }
 
+    public void setMyActionBar() {
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
+        getSupportActionBar().setTitle("Pixsel");
     }
 }
