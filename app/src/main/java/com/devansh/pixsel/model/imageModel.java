@@ -30,7 +30,6 @@ public class imageModel {
     @SerializedName("url")
     public String imageUrl;
 
-
     public String temperament;
 
     @ColumnInfo(name = "breed_group")
@@ -38,9 +37,16 @@ public class imageModel {
     public String breedGroup;
 
    @PrimaryKey(autoGenerate = true)
-    public int uuid ;                      // id assigned by database to our element
+    public int uuid ;
+//    id assigned by database to our element
 
-    public imageModel(String imageName,String imageId, String imageDate, String imageSize, String imageUrl,String temperament,String breedGroup) {
+    public imageModel(String imageName,
+                      String imageId,
+                      String imageDate,
+                      String imageSize,
+                      String imageUrl,
+                      String temperament,
+                      String breedGroup) {
         this.imageName = imageName;
         this.imageId = imageId;
         this.imageDate = imageDate;

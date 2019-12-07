@@ -34,7 +34,12 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
     @NonNull
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image,parent,false);
+        View view = LayoutInflater
+                .from(parent.getContext())
+                .inflate(
+                        R.layout.item_image,
+                        parent,
+                        false);
         return new ImageViewHolder(view);
     }
 
@@ -44,20 +49,18 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Imag
         TextView name = holder.itemView.findViewById(R.id.name_list);
         TextView date = holder.itemView.findViewById(R.id.date_list);
         LinearLayout layout = holder.itemView.findViewById(R.id.imageLayout);
+        LinearLayout bottomLayout = holder.itemView.findViewById(R.id.item_bottom_bar);
 
         name.setText(imageList.get(position).imageName);
         date.setText(imageList.get(position).imageDate);
 
         Util.loadImage(image,imageList.get(position).imageUrl, Util.getProgressDrawable(image.getContext()));
-
         layout.setOnClickListener(view -> {
             ListFragmentDirections.ActionDetail action = ListFragmentDirections.actionDetail();
             action.setImageid(imageList.get(position).uuid);
             Navigation.findNavController(layout).navigate(action);
         });
     }
-
-
 
     @Override
     public int getItemCount() {
