@@ -4,40 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:outlineProvider="bounds"
+    android:clipToPadding="false"
     tools:context=".view.DetailFragment">
 
-    <ImageView
-        android:id="@+id/image_detail"
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="30dp"
-        android:elevation="5dp"
-        android:minHeight="200dp"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/image_background" />
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginBottom="0dp">
 
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_below="@+id/image_detail"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="55dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="0dp"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:elevation="-5dp"
                 android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/image_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:minHeight="200dp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/image_background" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/floatingActionButton3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/image_detail"
+                        android:layout_alignParentRight="true"
+                        android:clickable="true"
+                        android:src="@android:drawable/stat_sys_download" />
+
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/name_detail"
                     android:layout_width="match_parent"
                     android:layout_height="75dp"
-                    android:layout_weight="3"
                     android:elevation="5dp"
                     android:text="Name"
                     android:textAlignment="center"
@@ -45,66 +65,58 @@
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_margin="4dp"
-                    android:layout_weight="1.5"
-                    android:gravity="center_vertical"
-                    android:text="Details"
-                    android:textColor="@color/completeBlack"
-                    android:textSize="20dp"
-                    android:textStyle="italic" />
+            </LinearLayout>
+
+
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:id="@+id/image_purpose"
-                android:layout_weight="1"
-                android:text="Share"
-                android:textSize="20dp"
-                android:gravity="center_vertical"
-                android:layout_margin="4dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/image_temperament"
-                android:layout_weight="1"
-                android:text="Size"
-                android:textSize="20dp"
-                android:gravity="center_vertical"
                 android:layout_margin="4dp"
-                 />
+                android:layout_weight="1.5"
+                android:elevation="5dp"
+                android:gravity="center_vertical"
+                android:text="Details"
+                android:textColor="@color/completeBlack"
+                android:textSize="20dp"
+                android:textStyle="italic" />
 
             <TextView
+                android:id="@+id/image_purpose"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_margin="4dp"
                 android:layout_weight="1"
-                android:text="Size"
-                android:textSize="20dp"
-                android:id="@+id/image_lifespan"
+                android:elevation="5dp"
                 android:gravity="center_vertical"
-                android:layout_margin="4dp"/>
+                android:text="Share"
+                android:textSize="20dp" />
 
+            <TextView
+                android:id="@+id/image_temperament"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:elevation="5dp"
+                android:gravity="center_vertical"
+                android:text="Size"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/image_lifespan"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:elevation="5dp"
+                android:gravity="center_vertical"
+                android:text="Size"
+                android:textSize="20dp" />
 
         </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
-
-
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/image_detail"
-        android:layout_alignBaseline="@+id/image_detail"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="-33dp"
-        android:layout_marginEnd="15sp"
-        android:clickable="true"
-        android:src="@android:drawable/stat_sys_download" />
+    </androidx.core.widget.NestedScrollView>
 
 
 </RelativeLayout>
