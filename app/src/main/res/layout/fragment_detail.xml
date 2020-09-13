@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:outlineProvider="bounds"
     android:clipToPadding="false"
-    tools:context=".view.DetailFragment">
-
+    tools:context=".views.DetailFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -17,7 +17,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="55dp"
         android:layout_marginBottom="0dp">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,7 +38,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:minHeight="200dp"
+                        android:minHeight="@dimen/value_200dp"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/image_background" />
 
@@ -57,67 +56,64 @@
                 <TextView
                     android:id="@+id/name_detail"
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
-                    android:elevation="5dp"
-                    android:text="Name"
+                    android:layout_height="@dimen/value_75dp"
+                    android:elevation="@dimen/value_5dp"
+                    android:text="@string/name"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
-                    android:textSize="30sp"
+                    android:textSize="@dimen/value_30sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
 
-
-
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_height="@dimen/value_50dp"
+                android:layout_margin="@dimen/value_5dp"
                 android:layout_weight="1.5"
-                android:elevation="5dp"
+                android:elevation="@dimen/value_5dp"
                 android:gravity="center_vertical"
-                android:text="Details"
+                android:text="@string/details"
                 android:textColor="@color/completeBlack"
-                android:textSize="20dp"
+                android:textSize="@dimen/value_20sp"
                 android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/image_purpose"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_height="@dimen/value_50dp"
+                android:layout_margin="@dimen/value_5dp"
                 android:layout_weight="1"
-                android:elevation="5dp"
+                android:elevation="@dimen/value_5dp"
                 android:gravity="center_vertical"
-                android:text="Share"
-                android:textSize="20dp" />
+                android:text="@string/share"
+                android:textSize="@dimen/value_20sp" />
 
             <TextView
                 android:id="@+id/image_temperament"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_height="@dimen/value_50dp"
+                android:layout_margin="@dimen/value_5dp"
                 android:layout_weight="1"
-                android:elevation="5dp"
+                android:elevation="@dimen/value_5dp"
                 android:gravity="center_vertical"
-                android:text="Size"
-                android:textSize="20dp" />
+                android:text="@string/size"
+                android:textSize="@dimen/value_20sp" />
 
             <TextView
                 android:id="@+id/image_lifespan"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="4dp"
+                android:layout_height="@dimen/value_50dp"
+                android:layout_margin="@dimen/value_5dp"
                 android:layout_weight="1"
-                android:elevation="5dp"
+                android:elevation="@dimen/value_5dp"
                 android:gravity="center_vertical"
-                android:text="Size"
-                android:textSize="20dp" />
+                android:text="@string/size"
+                android:textSize="@dimen/value_20sp" />
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
 
 </RelativeLayout>
 

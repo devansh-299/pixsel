@@ -1,15 +1,13 @@
 package com.devansh.pixsel.viewmodel;
 
 import android.app.Application;
-import android.app.NotificationManager;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.devansh.pixsel.R;
 import com.devansh.pixsel.model.ImageApiService;
 import com.devansh.pixsel.model.ImageDao;
 import com.devansh.pixsel.model.ImageDatabase;
-import com.devansh.pixsel.model.ImageApi;
-import com.devansh.pixsel.model.ImageApiService;
 import com.devansh.pixsel.model.imageModel;
 import com.devansh.pixsel.util.NotificationsHelper;
 import com.devansh.pixsel.util.SharedPreferencesHelper;
@@ -20,16 +18,13 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class ListViewModel extends AndroidViewModel {
 
-    // androidView model allows us to use the "context " part of android
-    // without making any connection b/w viewmodel and android app
+public class ListViewModel extends AndroidViewModel {
 
     public MutableLiveData<List<imageModel>> images = new MutableLiveData<List<imageModel>>();
     public MutableLiveData<Boolean> imageLoadError = new MutableLiveData<Boolean>();
@@ -39,14 +34,18 @@ public class ListViewModel extends AndroidViewModel {
 
     private CompositeDisposable disposable = new CompositeDisposable();
 
-    private  AsyncTask<List<imageModel>, Void, List<imageModel>> insertTask;      // declaring the object of async class
+    private  AsyncTask<List<imageModel>, Void, List<imageModel>> insertTask;
 
     private AsyncTask<Void,Void,List<imageModel>>  retrieveTask;
 
-    private SharedPreferencesHelper prefHelper = SharedPreferencesHelper.getInstance(getApplication());
-    private long refreshTime = 5*60*1000*1000*1000L ;         // time in namo seconds! bcz system clock works  in nanoseconds
-                                                             // this time decides how much time after last data retrieved from database we have to
-                                                            // retrieve data from database!
+    private SharedPreferencesHelper prefHelper =
+            SharedPreferencesHelper.getInstance(getApplication());
+    /*
+        Points:
+            - Time in nano seconds because system clock works in nanoseconds
+            - Specifies time interval in fetching data from local database
+     */
+    private long refreshTime = 5 * 60 * 1000 * 1000 * 1000L ;
 
     public ListViewModel(@NonNull Application application) {
         super(application);
@@ -54,23 +53,19 @@ public class ListViewModel extends AndroidViewModel {
 
     public void refresh() {
 
-        // we have two ways of retriving data , one by database and other by using the backend server
-        // a GOOD implementation of these data retrieval method ensures that we use these resources carefully , this involves Cache Implementation
-
         long updateTime = prefHelper.getUpdateTime();
         long currentTime = System.nanoTime();
-        if (updateTime != 0  && currentTime - updateTime <refreshTime){
+        if (updateTime != 0  && currentTime - updateTime <refreshTime) {
             fetchFromDatabase();
-        }
-        else {
+        } else {
             fetchFromRemote();
         }
-
-
     }
 
-    public void refreshByPassCache(){
-        // this  function handles the refresh spinner  , it forces to use retrieve from remote
+    /**
+     * This function handles the swipe to refresh, forces to retrieve data from remote
+     */
+    public void refreshByPassCache() {
         fetchFromRemote();
     }
 
@@ -83,24 +78,20 @@ public class ListViewModel extends AndroidViewModel {
     private void fetchFromRemote() {
         loading.setValue(true);
         disposable.add(
-
-                imagesApiService.getImages()                   // this method returns the Single
-
-                        .subscribeOn(Schedulers.newThread())           // here we are linking our new thread to the backend to get data
-                        // NOTE  android doesnot allow to link our main thread to link to server
-                        // because we dont know how much time it can take to get data #maybe forever
-
-                        .observeOn(AndroidSchedulers.mainThread())    // now we shift to main thread after getting data bcz background threads cannot show data to user
-
-
-                        .subscribeWith(new DisposableSingleObserver<List<imageModel>>() {       // now assigning an observer to the Single (an observable)
-
-
+                imagesApiService.getImages()
+                        // off-loading work on background thread
+                        .subscribeOn(Schedulers.newThread())
+                        // observing changes on main thread
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableSingleObserver<List<imageModel>>() {
                             @Override
                             public void onSuccess(List<imageModel> imageModels) {
                                 insertTask  = new InsertImageTask();
                                 insertTask.execute(imageModels);
-                                Toast.makeText(getApplication(),"Data retrieved from remote",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(
+                                        getApplication(),
+                                        R.string.toast_data_remote,
+                                        Toast.LENGTH_SHORT).show();
                                 NotificationsHelper.getInstance(getApplication()).createNotification();
                             }
 
@@ -109,8 +100,7 @@ public class ListViewModel extends AndroidViewModel {
                                 loading.setValue(false);
                                 imageLoadError.setValue(true);
                             }
-                        })
-        );
+                        }));
     }
 
     private void imagesRetrieved(List<imageModel> imageModels) {
@@ -119,16 +109,14 @@ public class ListViewModel extends AndroidViewModel {
         loading.setValue(false);
     }
 
-    public void checkCacheDuration(){
+    public void checkCacheDuration() {
         String cachePreference = prefHelper.getCacheDuration();
 
-        if(!cachePreference.equals("")){
+        if(!cachePreference.equals("")) {
             try {
-                int cahcePreferenceInt = Integer.parseInt(cachePreference);
-                refreshTime = cahcePreferenceInt*1000*1000*1000L;
-
-            }
-            catch (NumberFormatException e){
+                int cachePreferenceInt = Integer.parseInt(cachePreference);
+                refreshTime = cachePreferenceInt * 1000 * 1000 * 1000L;
+            } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
         }
@@ -138,32 +126,33 @@ public class ListViewModel extends AndroidViewModel {
     protected void onCleared() {
         super.onCleared();
         disposable.clear();
-        if(insertTask != null){
-            insertTask.cancel(true);            // done because of memory caches!!
+        if(insertTask != null) {
+            insertTask.cancel(true);
             insertTask = null;
         }
-        if(retrieveTask!= null){
+        if(retrieveTask!= null) {
             retrieveTask.cancel(true);
             retrieveTask = null;
         }
     }
 
-                                                     //input      progress   output
     private class InsertImageTask extends AsyncTask<List<imageModel>, Void, List<imageModel>> {
 
         @Override
         protected List<imageModel> doInBackground(List<imageModel>... lists) {
             List<imageModel> list = lists[0];
 
-            ImageDao dao = ImageDatabase.getInstance(getApplication()).imageDao();      // because of this context we used AndroidVIewModel and not ViewModel
+            // Need application context, hence AndroidViewModel was used
+            ImageDao dao = ImageDatabase.getInstance(getApplication()).imageDao();
 
             dao.deleteAllImages();
             ArrayList<imageModel> newList = new ArrayList<>(list);
-            List<Long> result = dao.insertAll(newList.toArray(new imageModel[0]));   //why parameters passed in this way is not clear!
+            List<Long> result = dao.insertAll(newList.toArray(new imageModel[0]));
 
             int i = 0;
             while (i < list.size()) {
-                list.get(i).uuid = result.get(i).intValue();         // updating the uuid in our objects
+//                updating the uuid in objects
+                list.get(i).uuid = result.get(i).intValue();
                 ++i;
             }
             return list;
@@ -177,7 +166,7 @@ public class ListViewModel extends AndroidViewModel {
         }
     }
 
-    private class RetrieveImageTask extends AsyncTask <Void ,Void ,List<imageModel>>{
+    private class RetrieveImageTask extends AsyncTask <Void, Void, List<imageModel>> {
 
         @Override
         protected List<imageModel> doInBackground(Void... voids) {
@@ -187,7 +176,10 @@ public class ListViewModel extends AndroidViewModel {
         @Override
         protected void onPostExecute(List<imageModel> imageModels) {
             imagesRetrieved(imageModels);
-            Toast.makeText(getApplication(),"Data retrieved from database",Toast.LENGTH_SHORT).show();
+            Toast.makeText(
+                    getApplication(),
+                    R.string.toast_data_retrieved_database,
+                    Toast.LENGTH_SHORT).show();
         }
     }
 }

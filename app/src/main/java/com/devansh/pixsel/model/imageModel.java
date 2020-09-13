@@ -36,9 +36,9 @@ public class imageModel {
     @SerializedName("breed_group")
     public String breedGroup;
 
-   @PrimaryKey(autoGenerate = true)
-    public int uuid ;
 //    id assigned by database to our element
+    @PrimaryKey(autoGenerate = true)
+    public int uuid ;
 
     public imageModel(String imageName,
                       String imageId,

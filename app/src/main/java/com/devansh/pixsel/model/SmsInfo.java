@@ -4,11 +4,11 @@ public class SmsInfo {
 
     public String to;
     public String text;
-    public String imageurl;
+    public String imageUrl;
 
-    public SmsInfo(String to, String text, String imageurl) {
+    public SmsInfo(String to, String text, String imageUrl) {
         this.to = to;
         this.text = text;
-        this.imageurl = imageurl;
+        this.imageUrl = imageUrl;
     }
 }

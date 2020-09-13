@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="value_20sp">20sp</dimen>
+    <dimen name="value_50dp">50dp</dimen>
+    <dimen name="value_5dp">5dp</dimen>
+    <dimen name="value_30sp">30sp</dimen>
+    <dimen name="value_75dp">75dp</dimen>
+    <dimen name="value_200dp">200dp</dimen>
+    <dimen name="value_0dp">0dp</dimen>
+    <dimen name="value_15dp">15dp</dimen>
+    <dimen name="value_170dp">170dp</dimen>
+    <dimen name="value_18sp">18sp</dimen>
+    <dimen name="value_15sp">15sp</dimen>
+</resources>

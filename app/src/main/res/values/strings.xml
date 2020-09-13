@@ -1,6 +1,24 @@
 <resources>
     <string name="app_name">Pixsel</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_images_retrieved">Images retrieved</string>
+    <string name="body_images_retrieved">The images have been retrieved. Check them out!</string>
+    <string name="notification_channel">Channel for Image Loading</string>
+    <string name="title_sms_permission">Send SMS Permission</string>
+    <string name="message_sms_permission">This app requires access to send SMS</string>
+    <string name="btn_positive_sms_permission">AskMe</string>
+    <string name="btn_negative_sms_permission">No</string>
+    <string name="application_name">Pixsel</string>
+    <string name="toast_data_retrieved_database">Data retrieved from database</string>
+    <string name="toast_data_remote">Data retrieved from remote</string>
+    <string name="to">To:</string>
+    <string name="message">Message:</string>
+    <string name="name">Name</string>
+    <string name="details">Details</string>
+    <string name="share">Share</string>
+    <string name="size">Size</string>
+    <string name="error_occurred_while_loading">Error Occurred While Loading</string>
+    <string name="date">Date</string>
+    <string name="send_sms">Send SMS</string>
+    <string name="settings">Settings</string>
 </resources>

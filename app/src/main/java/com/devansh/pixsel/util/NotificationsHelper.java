@@ -11,71 +11,68 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 
 import com.devansh.pixsel.R;
-import com.devansh.pixsel.view.MainActivity;
+import com.devansh.pixsel.views.MainActivity;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import butterknife.BindView;
 
+// A Singleton
 public class NotificationsHelper {
 
     private static final String CHANNEL_ID = "Images Channel Id";
     private static final int NOTIFICATION_ID = 123;
-
-    // we will make this also as a Singleton
-
     private static NotificationsHelper instance;
     private Context context;
 
-    private NotificationsHelper(Context context){
+    private NotificationsHelper(Context context) {
         this.context = context;
     }
 
-    public static NotificationsHelper getInstance(Context context){
-      if (instance == null){
+    public static NotificationsHelper getInstance(Context context) {
+      if (instance == null) {
           instance = new NotificationsHelper(context);
       }
       return instance;
     }
 
-    public void createNotification(){
+    public void createNotification() {
 
         createNotificationChannel();
         Intent intent = new Intent(context, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        PendingIntent pendingIntent= PendingIntent.getActivity(context,0,intent,0);
-        Bitmap icon = BitmapFactory.decodeResource(context.getResources(),R.drawable.image_background);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        Bitmap icon = 
+                BitmapFactory.decodeResource(context.getResources(), R.drawable.image_background);
 
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setLargeIcon(icon)
-                .setContentTitle("Images retrieved")
-                .setContentText("The images have been retrieved .Check them out!")
+                .setContentTitle(context.getString(R.string.title_images_retrieved))
+                .setContentText(context.getString(R.string.body_images_retrieved))
                 .setStyle(new NotificationCompat.BigPictureStyle()
                     .bigPicture(icon)
-                    .bigLargeIcon(null)
-                )
+                    .bigLargeIcon(null))
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .build();
-
-
+        
         NotificationManagerCompat.from(context).notify(NOTIFICATION_ID,notification);
 
     }
 
-    private void createNotificationChannel(){
+    private void createNotificationChannel() {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            String name  =  "Channel for Image Loading";          // this value is what user sees while attempting to disable notification
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            String description = "Image retrieved notification";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel  = new NotificationChannel(CHANNEL_ID,name,importance);
-            NotificationManager notificationManage = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    context.getString(R.string.notification_channel),
+                    importance);
+            NotificationManager notificationManage = 
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManage.createNotificationChannel(channel);
         }
-
     }
 }

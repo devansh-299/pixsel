@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.devansh.pixsel.view.ListFragment"
+        android:name="com.devansh.pixsel.views.ListFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list">
         <action
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.devansh.pixsel.view.DetailFragment"
+        android:name="com.devansh.pixsel.views.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail">
         <action
@@ -37,6 +37,6 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.devansh.pixsel.view.SettingsFragment"
+        android:name="com.devansh.pixsel.views.SettingsFragment"
         android:label="SettingsFragment" />
 </navigation>

@@ -1,13 +1,9 @@
 package com.devansh.pixsel.viewmodel;
 
-
-
 import android.app.Application;
 import android.os.AsyncTask;
-
 import com.devansh.pixsel.model.ImageDatabase;
 import com.devansh.pixsel.model.imageModel;
-
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -39,7 +35,7 @@ public class DetailViewModel extends AndroidViewModel {
         }
     }
 
-    private class RetrieveImageTask extends AsyncTask<Integer,Void,imageModel>{
+    private class RetrieveImageTask extends AsyncTask<Integer, Void, imageModel> {
 
         @Override
         protected imageModel doInBackground(Integer... integers) {
@@ -52,6 +48,5 @@ public class DetailViewModel extends AndroidViewModel {
             imageLiveData.setValue(imageModel);
         }
     }
-
 
 }

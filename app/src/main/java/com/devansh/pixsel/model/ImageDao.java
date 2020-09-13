@@ -8,6 +8,7 @@ import androidx.room.Query;
 
 @Dao
 public interface ImageDao {
+
     @Insert
     List<Long> insertAll(imageModel... dogs);
 

@@ -12,7 +12,10 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 public class Util {
 
-    public static void loadImage(ImageView imageView, String url, CircularProgressDrawable progressDrawable) {
+    public static void loadImage(ImageView imageView,
+                                 String url,
+                                 CircularProgressDrawable progressDrawable) {
+
         RequestOptions options = new RequestOptions()
                 .placeholder(progressDrawable)
                 .error(R.drawable.image_background);
@@ -31,9 +34,8 @@ public class Util {
     }
 
     @BindingAdapter("android:imageUrl")
-//  custom method for responding to the xml tag android:imageurl
-    public static void loadiImage(ImageView view , String url){
+//    custom method for responding to the xml tag android:imageurl
+    public static void loadImage(ImageView view , String url) {
         loadImage(view,url,getProgressDrawable(view.getContext()));
     }
-
 }
